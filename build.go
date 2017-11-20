@@ -1103,7 +1103,7 @@ func windowsCodesign(file string) {
 		st = path
 	}
 
-	for _, algo := range []string{"sha1", "sha256"} {
+	for i, algo := range []string{"sha1", "sha256"} {
 		args := []string{"sign", "/fd", algo}
 		if f := os.Getenv("CODESIGN_CERTIFICATE_FILE"); f != "" {
 			args = append(args, "/f", f)
@@ -1118,6 +1118,9 @@ func windowsCodesign(file string) {
 			default:
 				args = append(args, "/t", tr)
 			}
+		}
+		if i > 0 {
+			args = append(args, "/as")
 		}
 		args = append(args, file)
 
